@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: "offline",   // get refresh_token
     scope: scopes,
-    prompt: "consent",        // force consent to always get refresh_token
+    prompt: "select_account", // force account picker (changed from "consent")
     include_granted_scopes: true,
   });
 
