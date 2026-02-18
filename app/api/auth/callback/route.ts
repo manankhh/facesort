@@ -9,10 +9,17 @@ export async function GET(req: NextRequest) {
   const code = searchParams.get("code");
   const error = searchParams.get("error");
 
-  if (error || !code) {
+  // If no code yet, redirect back to auth page
+  // (Google sometimes does intermediate redirects with just iss parameter)
+  if (error) {
     return NextResponse.redirect(
-      new URL(`/auth?error=${error ?? "missing_code"}`, req.url)
+      new URL(`/auth?error=${error}`, req.url)
     );
+  }
+
+  if (!code) {
+    // No code yet - redirect to start auth flow
+    return NextResponse.redirect(new URL("/api/auth/login", req.url));
   }
 
   try {
