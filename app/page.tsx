@@ -12,7 +12,8 @@ export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const isGooglePhotosLink = (url: string) => {
-    return /photos\.google\.com\/(album|share|u\/\d+\/album)/.test(url);
+    // Accept both full URLs and short links
+    return /photos\.(google\.com\/(album|share|u\/\d+\/album)|app\.goo\.gl)/.test(url);
   };
 
   const handleAnalyze = () => {
@@ -24,7 +25,7 @@ export default function Home() {
     if (!isGooglePhotosLink(folderLink)) {
       setStep("error");
       setErrorMsg(
-        "That doesn't look like a Google Photos album link. It should start with photos.google.com/album/..."
+        "That doesn't look like a Google Photos album link. It should look like photos.google.com/album/... or photos.app.goo.gl/..."
       );
       return;
     }
